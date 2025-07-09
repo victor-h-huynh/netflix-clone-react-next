@@ -7,6 +7,15 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Bell, Gift, Search } from "lucide-react";
 
 // TODO: NETFLIX TEXT
 
@@ -14,7 +23,7 @@ export default function App() {
   console.log("nowPlayingMovies", nowPlayingMovies);
 
   return (
-    <div className="bg-[#141414] text-white font-netflix-sans">
+    <div className="bg-[#141414] text-white font-netflix-sans dark">
       <Header />
       <HeroSection />
       <MovieCardCarousel />
@@ -29,18 +38,36 @@ function Header() {
   return (
     <>
       <div className="flex justify-between px-[60px] py-[25px]">
-        <div className="flex w-[570px] h-[30px] ml-10 space-x-6 lg:mr-60">
-          <img src="/images/netflix-logo.png" alt="" />
-          <ul className="font-bold">Home</ul>
-          <ul>TV Shows</ul>
-          <ul>Movies</ul>
-          <ul>Recently Added</ul>
-          <ul>My List</ul>
+        <div className="flex space-x-2 items-center">
+          <img className="mr-10" src="/images/netflix-logo.png" alt="" />
+          <Button variant="ghost" className="font-bold">
+            Home
+          </Button>
+          <Button variant="ghost">TV Shows</Button>
+          <Button variant="ghost">Movies</Button>
+          <Button variant="ghost">Recently Added</Button>
+          <Button variant="ghost">My List</Button>
         </div>
-        <div className="flex space-x-6 mr-15">
-          <ul>Search Icon</ul>
-          <ul>Notification</ul>
-          <ul>Profile Image</ul>
+        <div className="flex space-x-6 items-center">
+          <Search />
+          <Bell />
+          <Gift />
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <img
+                className="w-8 h-8 cursor-pointer rounded-full"
+                src="https://avatar.iran.liara.run/public"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Billing</DropdownMenuItem>
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>Subscription</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </>
@@ -103,7 +130,7 @@ function MovieCardCarousel() {
       <Carousel>
         <CarouselContent className="p-8 m-8">
           {movies.map((movie, index) => (
-            <CarouselItem className="basis-1/7">
+            <CarouselItem key={index} className="basis-1/7">
               <div className="">
                 <img
                   src={
