@@ -24,25 +24,73 @@ export default function App() {
 }
 
 function Header() {
-  return <h1>Header</h1>;
+  return (
+    <>
+      <div className="flex justify-between">
+        <div className="ml-10">
+          <span>Netflix Logo</span>
+        </div>
+        <div className="flex space-x-6 lg:mr-60">
+          <ul>Home</ul>
+          <ul>TV Shows</ul>
+          <ul>Movies</ul>
+          <ul>Recently Added</ul>
+          <ul>My List</ul>
+        </div>
+        <div className="flex space-x-6 mr-15">
+          <ul>Search Icon</ul>
+          <ul>Notification</ul>
+          <ul>Profile Image</ul>
+        </div>
+      </div>
+    </>
+  );
 }
 
 function Footer() {
-  return <h1>Footer</h1>;
+  return (
+    <div className="grid grid-cols-4 gap-4 ml-25">
+      <ul>1</ul>
+      <ul>2</ul>
+      <ul>3</ul>
+      <ul>4</ul>
+      <ul>5</ul>
+      <ul>6</ul>
+      <ul>7</ul>
+      <ul>8</ul>
+      <ul>9</ul>
+      <ul>10</ul>
+      <ul>11</ul>
+      <ul>12</ul>
+      <ul>13</ul>
+    </div>
+  );
 }
 
 function HeroSection() {
   // NOTE: One movie hero portrait. Play around with image
   // To make like hero shot.
   // mask Y tailwind bottom left bottom right
-  // hero shot max width max height
   // text layer ontop of it.
   // Find a solution AI, tailwind for overlapping text on a image
-  // React
+  // NOTE: used prompt Teach me as a junior dev How to move elements over an image tailwind and css ways
   return (
-    <div>
-      <Button>Play</Button>
-      <Button variant="outline">Watch Trailer</Button>
+    <div className="relative">
+      <img
+        className="w-full h-full"
+        src="/images/the-office-poster.jpg"
+        alt="the office poster"
+      />
+      <div className="flex flex-col justify-between w-1/4 ml-[50px] absolute -translate-y-[500px]">
+        <span>
+          A mockumentary on a group of typical office workers, where the workday
+          consists of ego clashes, inappropriate behavior, tedium and romance
+        </span>
+        <div className="space-x-2">
+          <Button>Play</Button>
+          <Button variant="outline">Watch Trailer</Button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -55,10 +103,6 @@ function MovieCardCarousel() {
       <Carousel>
         <CarouselContent className="p-8 m-8">
           {movies.map((movie, index) => (
-            // NOTE: Asked AI for website layout in React to know how I should
-            // be creating each function.
-
-            // NOTE: Where should the key.id go?
             <CarouselItem className="basis-1/7">
               <div className="">
                 <img
