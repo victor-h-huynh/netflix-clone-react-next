@@ -8,11 +8,13 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
+// TODO: NETFLIX TEXT
+
 export default function App() {
   console.log("nowPlayingMovies", nowPlayingMovies);
 
   return (
-    <div>
+    <div className="bg-[#141414] text-white font-netflix-sans">
       <Header />
       <HeroSection />
       <MovieCardCarousel />
@@ -26,12 +28,10 @@ export default function App() {
 function Header() {
   return (
     <>
-      <div className="flex justify-between">
-        <div className="ml-10">
-          <span>Netflix Logo</span>
-        </div>
-        <div className="flex space-x-6 lg:mr-60">
-          <ul>Home</ul>
+      <div className="flex justify-between px-[60px] py-[25px]">
+        <div className="flex w-[570px] h-[30px] ml-10 space-x-6 lg:mr-60">
+          <img src="/images/netflix-logo.png" alt="" />
+          <ul className="font-bold">Home</ul>
           <ul>TV Shows</ul>
           <ul>Movies</ul>
           <ul>Recently Added</ul>
