@@ -15,9 +15,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Bell, Gift, Search } from "lucide-react";
+import {
+  Bell,
+  Gift,
+  Search,
+  Facebook,
+  Twitter,
+  Youtube,
+  Instagram,
+} from "lucide-react";
+import Link from "next/link";
 
 // TODO: NETFLIX TEXT
+// TODO: UPDATE THEME FILE, REMOVE HARD CODE COLOUR VALUES
+// TODO: FIX SPACING VOTE COUNT Victor
+// TODO: CODE SPLITTING
+// TODO: HEADER RESPONSIVENESS, CHECK ISSUE OF SMALL SCREEN SIZES
+// TODO: HEADER TEXT COLOUR Victor
+// TODO: IMPLEMENT HERO SECTION AND
+// TODO: CAROUSEL COMPONENT AS DESIGNED, PROPER ARROW DESIGN, WIDER THUMBNAILS, LEFT HIDDEN AT START, CAROUSEL COMPONENT CHEVERON, Victor
 
 export default function App() {
   console.log("nowPlayingMovies", nowPlayingMovies);
@@ -76,20 +92,72 @@ function Header() {
 
 function Footer() {
   return (
-    <div className="grid grid-cols-4 gap-4 ml-25">
-      <ul>1</ul>
-      <ul>2</ul>
-      <ul>3</ul>
-      <ul>4</ul>
-      <ul>5</ul>
-      <ul>6</ul>
-      <ul>7</ul>
-      <ul>8</ul>
-      <ul>9</ul>
-      <ul>10</ul>
-      <ul>11</ul>
-      <ul>12</ul>
-      <ul>13</ul>
+    <div className="flex items-center justify-center w-full text-[#808080]">
+      <div className="flex-col flex-start sm:w-130 md:w-150 lg:w-200 xl:w-200">
+        <div className="flex gap-x-3 ">
+          <Instagram className="hover:text-gray-300" size={33} />
+          <Twitter className="hover:text-gray-300" size={33} />
+          <Facebook className="hover:text-gray-300" size={33} />
+          <Youtube className="hover:text-gray-300" size={33} />
+        </div>
+        <div className="flex-col flex-wrap my-5 font-medium">
+          <div className="flex my-2">
+            <Link
+              className="hover:text-gray-300 flex-1"
+              href="https://www.google.ca"
+            >
+              FAQ
+            </Link>
+
+            <Link
+              className="hover:text-gray-300 flex-1"
+              href="https://www.google.ca"
+            >
+              Help Center
+            </Link>
+            <Link
+              className="hover:text-gray-300 flex-1"
+              href="https://www.google.ca"
+            >
+              Account
+            </Link>
+          </div>
+          <div className="flex my-2">
+            <Link
+              className="hover:text-gray-300 flex-1"
+              href="https://www.google.ca"
+            >
+              Terms of Use
+            </Link>
+            <Link
+              className="hover:text-gray-300 flex-1"
+              href="https://www.google.ca"
+            >
+              Privacy
+            </Link>
+            <Link
+              className="hover:text-gray-300 flex-1"
+              href="https://www.google.ca"
+            >
+              Contact Us
+            </Link>
+          </div>
+          <Link
+            className="hover:text-gray-300 flex-1"
+            href="https://www.google.ca"
+          >
+            Legal Notices
+          </Link>
+        </div>
+        <div>
+          <Button className="border-1 rounded-none bg-red-500/0 text-[#808080] border-[#808080] shadow-xs hover:bg-accent hover:text-accent-foreground">
+            Button
+          </Button>
+        </div>
+        <div className="mt-5">
+          <span>© 1997-2021 Netflix, Inc. i-062d573a0ee099242</span>
+        </div>
+      </div>
     </div>
   );
 }
