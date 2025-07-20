@@ -1,5 +1,7 @@
 import nowPlayingMovies from "../../api-response-example.json";
 import { Button } from "@/components/ui/button";
+import React, { useCallback } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import {
   Carousel,
   CarouselContent,
@@ -23,18 +25,20 @@ import {
   Twitter,
   Youtube,
   Instagram,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 
 // TODO: NETFLIX TEXT
 // TODO: UPDATE THEME FILE, REMOVE HARD CODE COLOUR VALUES
-// TODO: FIX SPACING VOTE COUNT Victor
+// TODO: FIX SPACING VOTE COUNT Victor DONE
 // TODO: CODE SPLITTING
 // TODO: HEADER RESPONSIVENESS, CHECK ISSUE OF SMALL SCREEN SIZES
-// TODO: HEADER TEXT COLOUR Victor
+// TODO: HEADER TEXT COLOUR Victor DONE
 // TODO: IMPLEMENT HERO SECTION AND
 // TODO: CAROUSEL COMPONENT AS DESIGNED, PROPER ARROW DESIGN, WIDER THUMBNAILS, LEFT HIDDEN AT START, CAROUSEL COMPONENT CHEVERON, Victor
-
+// NOTE: HIDING PREV BTN NEEDS EXTRA WORK W/ APPLYING CSS CLAVASCRIPT ETC.SSES JA
 export default function App() {
   console.log("nowPlayingMovies", nowPlayingMovies);
 
@@ -42,9 +46,7 @@ export default function App() {
     <div className="bg-[#141414] text-white font-netflix-sans dark">
       <Header />
       <HeroSection />
-      <MovieCardCarousel />
-      <MovieCardCarousel />
-      <MovieCardCarousel />
+      <EmblaCarousel />
       <Footer />
     </div>
   );
@@ -54,9 +56,9 @@ function Header() {
   return (
     <>
       <div className="flex justify-between px-[60px] py-[25px]">
-        <div className="flex space-x-2 items-center">
+        <div className="flex space-x-2 items-center text-[#E5E5E5]">
           <img className="mr-10" src="/images/netflix-logo.png" alt="" />
-          <Button variant="ghost" className="font-bold">
+          <Button variant="ghost" className="font-bold text-white">
             Home
           </Button>
           <Button variant="ghost">TV Shows</Button>
@@ -190,34 +192,47 @@ function HeroSection() {
   );
 }
 
-function MovieCardCarousel() {
+export const EmblaCarousel = () => {
+  const [emblaRef, emblaApi] = useEmblaCarousel();
   const movies = [...nowPlayingMovies.results];
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const showRightButton = emblaApi?.canScrollNext();
+  console.log("TEST", emblaApi?.canScrollNext());
+
   return (
-    <div className="w-[90%] m-auto">
-      <span>New this week</span>
-      <Carousel>
-        <CarouselContent className="p-8 m-8">
+    <div className="embla">
+      <span className="text-xl font-netflix-sans font-semibold">
+        New this week
+      </span>
+      <div className="embla__viewport" ref={emblaRef}>
+        <div className="embla__container">
           {movies.map((movie, index) => (
-            <CarouselItem key={index} className="basis-1/7">
-              <div className="">
+            <div className="embla__slide" key={index}>
+              <div className=" sm:w-0 md:w-0 lg:w-70 xl:w-53 w-[1000px] ml-">
                 <img
+                  className=" rounded-sm sm:h-0 md:h-0 lg:h-63 xl:h-95 h-[1000px]"
                   src={
                     `https://image.tmdb.org/t/p/original` + movie.poster_path
                   }
                   alt=""
                 />
               </div>
-              <div>
-                <h1 key={movie.id}>Title: {movie.title}</h1>
-                <span>Rating: {movie.vote_average}</span>
-                <span>Vote Count: {movie.vote_count}</span>
-              </div>
-            </CarouselItem>
+            </div>
           ))}
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+        </div>
+      </div>
+      <ChevronLeft className="embla__prev" onClick={scrollPrev} />
+      {emblaApi?.canScrollNext() && (
+        <ChevronRight className="embla__next" onClick={scrollNext} />
+      )}
     </div>
   );
-}
+};
