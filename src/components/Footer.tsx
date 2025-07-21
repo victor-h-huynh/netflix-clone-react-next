@@ -66,9 +66,6 @@ export function Footer() {
             Button
           </Button>
         </div>
-        <div className="mt-5">
-          <span>© 1997-2021 Netflix, Inc. i-062d573a0ee099242</span>
-        </div>
       </div>
     </div>
   );
