@@ -19,17 +19,18 @@ export const EmblaCarousel = () => {
   console.log("TEST", emblaApi?.canScrollNext());
 
   return (
-    <div className="embla">
-      <span className="text-xl font-netflix-sans font-semibold">
+    <div className="embla ">
+      <span className=" text-xl  font-netflix-sans font-semibold">
         New this week
       </span>
       <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
+        <div className="embla__container sm:gap-23 md:gap-17 lg:gap-34 xl:gap-42 2xl:gap-49">
           {movies.map((movie, index) => (
-            <div className="embla__slide" key={index}>
-              <div className=" sm:w-0 md:w-0 lg:w-70 xl:w-53 w-[1000px] ml-">
+            // NOTE: ADD DIALOG HERE TO DISPLAY EACH ONE
+            <div className="embla__slide " key={index}>
+              <div className="sm:w-[22vw] lg:w-55 xl:w-68 2xl:w-80">
                 <img
-                  className=" rounded-sm sm:h-0 md:h-0 lg:h-63 xl:h-95 h-[1000px]"
+                  className="rounded-sm sm:h-[25vh] lg:h-100 xl:h-140 2xl:h-180"
                   src={
                     `https://image.tmdb.org/t/p/original` + movie.poster_path
                   }
