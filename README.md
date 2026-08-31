@@ -24,6 +24,18 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 
 This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Database setup (Phase 2)
+
+The "My List" feature is backed by a PostgreSQL database. The free
+[Neon](https://neon.tech) tier is enough.
+
+- Set `DATABASE_URL` to the Neon **pooled** connection string:
+  - Locally: add it to `.env.local`.
+  - Production: add it as a Vercel environment variable.
+- Run `schema.sql` once against the database, either with
+  `node --env-file=.env.local` (a small script that runs the file) or by
+  pasting it into the Neon SQL Editor.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

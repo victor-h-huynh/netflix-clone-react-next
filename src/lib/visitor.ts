@@ -18,9 +18,15 @@ export function getVisitorId(
   if (existing) return existing;
 
   const id = randomUUID();
-  res.setHeader(
-    "Set-Cookie",
-    `${COOKIE_NAME}=${id}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${ONE_YEAR_SECONDS}`,
-  );
+  const attributes = [
+    `${COOKIE_NAME}=${id}`,
+    "Path=/",
+    "HttpOnly",
+    "SameSite=Lax",
+    `Max-Age=${ONE_YEAR_SECONDS}`,
+  ];
+  // `Secure` only in production so http://localhost:3000 keeps working in dev.
+  if (process.env.NODE_ENV === "production") attributes.push("Secure");
+  res.setHeader("Set-Cookie", attributes.join("; "));
   return id;
 }

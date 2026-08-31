@@ -3,6 +3,10 @@
 Prereq: `DATABASE_URL` set in `.env.local` (Neon pooled string); `schema.sql`
 has been run against the Neon database; `npm run dev` running.
 
+Note: Phase 2 does not migrate any pre-existing browser `localStorage` "My List"
+from Phase 1 — those entries are simply abandoned, which is intentional (the
+spec's "no localStorage fallback" non-goal).
+
 1. Add a movie to My List from the home page → button shows "In My List".
 2. Reload → still "In My List" (state came from Postgres, not memory).
 3. `/my-list` page lists the movie.

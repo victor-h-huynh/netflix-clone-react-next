@@ -3,9 +3,12 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { sql } from "@/lib/db";
 import { getVisitorId } from "@/lib/visitor";
 
+// Upper bound keeps oversized input on the 400 path instead of letting it
+// reach Postgres and fail there as a 500 (integer out of range). TMDB ids are
+// comfortably below 10_000_000.
 function parseMovieId(raw: unknown): number | null {
   const n = Number(raw);
-  return Number.isInteger(n) && n > 0 ? n : null;
+  return Number.isInteger(n) && n > 0 && n <= 10_000_000 ? n : null;
 }
 
 export default async function handler(
@@ -19,6 +22,8 @@ export default async function handler(
       const rows = await sql<{ movie_id: number }[]>`
         select movie_id from my_list where visitor_id = ${visitorId}
       `;
+      // Per-visitor data — must not be heuristically cached by browsers/CDNs.
+      res.setHeader("Cache-Control", "no-store");
       return res.status(200).json({ ids: rows.map((r) => r.movie_id) });
     }
 
