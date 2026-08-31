@@ -26,8 +26,8 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex space-x-2 items-center text-[#E5E5E5]">
-            <Button variant="ghost" className="font-bold text-white">
-              Home
+            <Button variant="ghost" className="font-bold text-white" asChild>
+              <Link href="/">Home</Link>
             </Button>
             <Button variant="ghost">TV Shows</Button>
             <Button variant="ghost">Movies</Button>
@@ -81,7 +81,9 @@ export function Header() {
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuLabel>Navigation</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="font-bold">Home</DropdownMenuItem>
+              <DropdownMenuItem asChild className="font-bold">
+                <Link href="/">Home</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>TV Shows</DropdownMenuItem>
               <DropdownMenuItem>Movies</DropdownMenuItem>
               <DropdownMenuItem>New &amp; Popular</DropdownMenuItem>
