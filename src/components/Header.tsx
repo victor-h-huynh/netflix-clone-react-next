@@ -18,11 +18,13 @@ export function Header() {
         {/* Left Section - Logo and Navigation */}
         <div className="flex items-center">
           {/* Logo */}
-          <img
-            className="h-6 md:h-8 mr-4 md:mr-10"
-            src="/images/netflix-logo.png"
-            alt="Netflix"
-          />
+          <Link href="/" className="mr-4 md:mr-10" aria-label="Netflix home">
+            <img
+              className="h-6 md:h-8"
+              src="/images/netflix-logo.png"
+              alt="Netflix"
+            />
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex space-x-2 items-center text-[#E5E5E5]">
