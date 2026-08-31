@@ -13,7 +13,11 @@ async function fetchMovieClient(id: number): Promise<Movie> {
   if (!res.ok) {
     throw new Error(`TMDB request failed: ${res.status} ${res.statusText}`);
   }
-  return res.json();
+  const data = await res.json();
+  return {
+    ...data,
+    genre_ids: data.genres.map((g: { id: number }) => g.id),
+  };
 }
 
 export default function MyListPage() {
