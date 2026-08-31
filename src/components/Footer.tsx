@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button";
-import { Facebook, Twitter, Youtube, Instagram, Play } from "lucide-react";
+import { Facebook, Twitter, Youtube, Instagram } from "lucide-react";
 import Link from "next/link";
 import {
   Dialog,
@@ -68,11 +67,6 @@ export function Footer() {
           >
             Legal Notices
           </Link>
-        </div>
-        <div>
-          <Button className="border-1 rounded-none bg-red-500/0 text-[#808080] border-[#808080] shadow-xs hover:bg-accent hover:text-accent-foreground">
-            Button
-          </Button>
         </div>
       </div>
     </div>

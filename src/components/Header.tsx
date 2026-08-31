@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -25,13 +26,15 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex space-x-2 items-center text-[#E5E5E5]">
-            <Button variant="ghost" className="font-bold text-white">
-              Home
+            <Button variant="ghost" className="font-bold text-white" asChild>
+              <Link href="/">Home</Link>
             </Button>
             <Button variant="ghost">TV Shows</Button>
             <Button variant="ghost">Movies</Button>
-            <Button variant="ghost">Recently Added</Button>
-            <Button variant="ghost">My List</Button>
+            <Button variant="ghost">New &amp; Popular</Button>
+            <Button variant="ghost" asChild>
+              <Link href="/my-list">My List</Link>
+            </Button>
           </nav>
         </div>
 
@@ -78,11 +81,15 @@ export function Header() {
             <DropdownMenuContent align="end" className="w-48">
               <DropdownMenuLabel>Navigation</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="font-bold">Home</DropdownMenuItem>
+              <DropdownMenuItem asChild className="font-bold">
+                <Link href="/">Home</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>TV Shows</DropdownMenuItem>
               <DropdownMenuItem>Movies</DropdownMenuItem>
-              <DropdownMenuItem>Recently Added</DropdownMenuItem>
-              <DropdownMenuItem>My List</DropdownMenuItem>
+              <DropdownMenuItem>New &amp; Popular</DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/my-list">My List</Link>
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               <DropdownMenuSeparator />
