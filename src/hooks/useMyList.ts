@@ -1,40 +1,66 @@
 import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = "netflix-clone-my-list";
+// "My List" is stored server-side (Postgres via /api/my-list), scoped to an
+// anonymous `visitor_id` cookie the API sets. Each hook instance loads its
+// own copy on mount; a toggle in one MovieCard is not pushed to other mounted
+// instances until they remount (same behavior as the Phase 1 client-side
+// storage version — acceptable for this UI).
+
+async function fetchIds(signal: AbortSignal): Promise<number[]> {
+  const res = await fetch("/api/my-list", { signal });
+  if (!res.ok) throw new Error(`GET /api/my-list -> ${res.status}`);
+  const data = (await res.json()) as { ids?: unknown };
+  return Array.isArray(data.ids) ? (data.ids as number[]) : [];
+}
 
 export function useMyList() {
   const [ids, setIds] = useState<number[]>([]);
 
-  // Each hook instance loads its own copy from localStorage on mount, so
-  // two MovieCards showing the same movie in different rows won't reflect
-  // a toggle in one until the other remounts. Acceptable for a
-  // localStorage-only MVP; Phase 2 replaces this with shared server state.
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          setIds(parsed);
+    const controller = new AbortController();
+    fetchIds(controller.signal)
+      .then(setIds)
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          console.error("Failed to load My List:", err);
         }
-      } catch {
-        // ignore corrupted localStorage data; ids stays []
-      }
-    }
+      });
+    return () => controller.abort();
   }, []);
 
   const isInList = useCallback((id: number) => ids.includes(id), [ids]);
 
-  const toggle = useCallback((id: number) => {
-    setIds((prev) => {
-      const next = prev.includes(id)
-        ? prev.filter((existing) => existing !== id)
-        : [...prev, id];
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      return next;
-    });
-  }, []);
+  const toggle = useCallback(
+    (id: number) => {
+      const adding = !ids.includes(id);
+
+      // optimistic update
+      setIds((prev) =>
+        prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+      );
+
+      const request = adding
+        ? fetch("/api/my-list", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ movieId: id }),
+          })
+        : fetch(`/api/my-list?movieId=${id}`, { method: "DELETE" });
+
+      request
+        .then((res) => {
+          if (!res.ok) throw new Error(`update /api/my-list -> ${res.status}`);
+        })
+        .catch((err) => {
+          console.error("Failed to update My List:", err);
+          // roll back the optimistic change
+          setIds((current) =>
+            adding ? current.filter((x) => x !== id) : [...current, id],
+          );
+        });
+    },
+    [ids],
+  );
 
   return { ids, isInList, toggle };
 }
