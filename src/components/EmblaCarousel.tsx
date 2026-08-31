@@ -16,7 +16,7 @@ export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
   }, [emblaApi]);
 
   return (
-    <div className="embla">
+    <div className="embla relative">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container sm:gap-23 md:gap-17 lg:gap-34 xl:gap-42 2xl:gap-49">
           {movies.map((movie) => (
@@ -26,9 +26,23 @@ export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
           ))}
         </div>
       </div>
-      <ChevronLeft className="embla__prev" onClick={scrollPrev} />
+      {emblaApi?.canScrollPrev() && (
+        <button
+          onClick={scrollPrev}
+          aria-label="Scroll left"
+          className="absolute left-0 top-0 bottom-0 z-10 flex items-center justify-center w-10 bg-black/40 hover:bg-black/70 transition-colors"
+        >
+          <ChevronLeft className="h-8 w-8 text-white" />
+        </button>
+      )}
       {emblaApi?.canScrollNext() && (
-        <ChevronRight className="embla__next" onClick={scrollNext} />
+        <button
+          onClick={scrollNext}
+          aria-label="Scroll right"
+          className="absolute right-0 top-0 bottom-0 z-10 flex items-center justify-center w-10 bg-black/40 hover:bg-black/70 transition-colors"
+        >
+          <ChevronRight className="h-8 w-8 text-white" />
+        </button>
       )}
     </div>
   );
