@@ -94,8 +94,10 @@ already-scaffolded `src/pages/api` directory, but are not designed here.
   `toggle(id)`. Read/write guarded for SSR (`typeof window`).
 - `MovieCard` uses the hook to show a filled/outline icon and toggle
   membership.
-- A `/my-list` page (or a filtered section on the home page — see open
-  question below) reads the hook and fetches/display those specific movies.
+- A new `src/pages/my-list.tsx` reads the hook's ids, fetches each movie's
+  detail from TMDB, and renders them via `MovieCard` in a simple grid
+  (no rows/carousel needed here). Empty state: a short message when the
+  list is empty.
 - This hook is the seam Phase 2 will replace: same `isInList`/`toggle`
   interface, backed by an API call + DB instead of `localStorage`.
 
@@ -129,10 +131,9 @@ already-scaffolded `src/pages/api` directory, but are not designed here.
   responsive layout holds at mobile/tablet/desktop breakpoints, "My List"
   toggle persists across a page reload.
 
-## Open questions
+## Resolved decisions
 
-1. **"My List" page** — a dedicated `/my-list` route, or a filtered
-   section injected into the homepage? (Video's nav has "My List" as a
-   link, implying a separate page.)
-2. **TMDB API key** — do you already have a TMDB account/API key, or does
-   that need to be signed up for before this can run end-to-end?
+1. **"My List" page** — dedicated `/my-list` route (not a homepage
+   section). The "My List" nav link routes there.
+2. **TMDB API key** — already obtained; stored in `.env.local` (git-ignored)
+   as `TMDB_API_KEY`, not committed anywhere.
