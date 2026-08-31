@@ -1,13 +1,5 @@
 import { Facebook, Twitter, Youtube, Instagram } from "lucide-react";
 import Link from "next/link";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 
 export function Footer() {
   return (
