@@ -25,12 +25,17 @@ export function MovieCard({ movie }: { movie: Movie }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="sm:w-[22vw] lg:w-55 xl:w-68 2xl:w-80 transition-transform duration-200 hover:scale-105 cursor-pointer">
+        <div className="group relative w-[38vw] sm:w-[22vw] md:w-[17vw] lg:w-[13vw] xl:w-[10vw] 2xl:w-[9vw] transition-transform duration-200 hover:scale-105 cursor-pointer">
           <img
-            className="rounded-sm sm:h-[25vh] lg:h-100 xl:h-140 2xl:h-180 object-cover w-full"
+            className="rounded-sm aspect-[2/3] object-cover w-full"
             src={posterSrc}
             alt={movie.title}
           />
+          <div className="absolute inset-x-0 bottom-0 rounded-b-sm bg-gradient-to-t from-black/90 to-transparent px-2 py-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <p className="text-white text-xs sm:text-sm font-medium truncate">
+              {movie.title}
+            </p>
+          </div>
         </div>
       </DialogTrigger>
       <DialogContent className="lg:!max-w-[90vw] lg:flex lg:flex-row lg:p-0">

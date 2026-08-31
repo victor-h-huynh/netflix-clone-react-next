@@ -30,7 +30,7 @@ export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
   return (
     <div className="embla relative">
       <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container sm:gap-23 md:gap-17 lg:gap-34 xl:gap-42 2xl:gap-49">
+        <div className="embla__container gap-2">
           {movies.map((movie) => (
             <div className="embla__slide" key={movie.id}>
               <MovieCard movie={movie} />
