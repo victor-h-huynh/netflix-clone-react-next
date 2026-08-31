@@ -16,7 +16,7 @@ async function fetchMovieClient(id: number): Promise<Movie> {
   const data = await res.json();
   return {
     ...data,
-    genre_ids: data.genres.map((g: { id: number }) => g.id),
+    genre_ids: (data.genres ?? []).map((g: { id: number }) => g.id),
   };
 }
 
@@ -30,8 +30,14 @@ export default function MyListPage() {
       return;
     }
     let cancelled = false;
-    Promise.all(ids.map(fetchMovieClient)).then((results) => {
-      if (!cancelled) setMovies(results);
+    Promise.allSettled(ids.map(fetchMovieClient)).then((results) => {
+      if (cancelled) return;
+      const fulfilled = results
+        .filter(
+          (r): r is PromiseFulfilledResult<Movie> => r.status === "fulfilled"
+        )
+        .map((r) => r.value);
+      setMovies(fulfilled);
     });
     return () => {
       cancelled = true;
@@ -43,7 +49,7 @@ export default function MyListPage() {
       <Header />
       <div className="px-4 md:px-8 lg:px-16 xl:px-20 pt-24 pb-8">
         <h1 className="text-2xl md:text-3xl font-bold mb-6">My List</h1>
-        {movies.length === 0 ? (
+        {ids.length === 0 ? (
           <p className="text-gray-400">
             Your list is empty. Add movies from the home page.
           </p>

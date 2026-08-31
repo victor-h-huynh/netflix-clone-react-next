@@ -2,17 +2,23 @@ import { Button } from "@/components/ui/button";
 import { Play, Info } from "lucide-react";
 import { Movie } from "@/types/movie";
 
+const PLACEHOLDER_IMAGE =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7";
+
 export function HeroSection({ movie }: { movie: Movie | null }) {
   if (!movie) return null;
 
   const year = movie.release_date ? movie.release_date.slice(0, 4) : "";
+  const backdropSrc = movie.backdrop_path
+    ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+    : PLACEHOLDER_IMAGE;
 
   return (
     <div className="relative w-full h-[50vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] overflow-hidden">
       <div className="absolute inset-0">
         <img
           className="w-full h-full object-cover object-center"
-          src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+          src={backdropSrc}
           alt={movie.title}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>

@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { MovieCard } from "@/components/MovieCard";
@@ -6,6 +6,8 @@ import { Movie } from "@/types/movie";
 
 export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
   const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(false);
 
   const scrollPrev = useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -13,6 +15,16 @@ export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
 
   const scrollNext = useCallback(() => {
     if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => {
+      setCanPrev(emblaApi.canScrollPrev());
+      setCanNext(emblaApi.canScrollNext());
+    };
+    onSelect();
+    emblaApi.on("select", onSelect).on("reInit", onSelect);
   }, [emblaApi]);
 
   return (
@@ -26,7 +38,7 @@ export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
           ))}
         </div>
       </div>
-      {emblaApi?.canScrollPrev() && (
+      {canPrev && (
         <button
           onClick={scrollPrev}
           aria-label="Scroll left"
@@ -35,7 +47,7 @@ export const EmblaCarousel = ({ movies }: { movies: Movie[] }) => {
           <ChevronLeft className="h-8 w-8 text-white" />
         </button>
       )}
-      {emblaApi?.canScrollNext() && (
+      {canNext && (
         <button
           onClick={scrollNext}
           aria-label="Scroll right"

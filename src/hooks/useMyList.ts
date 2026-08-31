@@ -13,7 +13,14 @@ export function useMyList() {
     if (typeof window === "undefined") return;
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      setIds(JSON.parse(stored));
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setIds(parsed);
+        }
+      } catch {
+        // ignore corrupted localStorage data; ids stays []
+      }
     }
   }, []);
 

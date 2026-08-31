@@ -12,9 +12,15 @@ import { Movie } from "@/types/movie";
 import { genreNames } from "@/lib/genres";
 import { useMyList } from "@/hooks/useMyList";
 
+const PLACEHOLDER_IMAGE =
+  "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBTAA7";
+
 export function MovieCard({ movie }: { movie: Movie }) {
   const { isInList, toggle } = useMyList();
   const inList = isInList(movie.id);
+  const posterSrc = movie.poster_path
+    ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+    : PLACEHOLDER_IMAGE;
 
   return (
     <Dialog>
@@ -22,7 +28,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
         <div className="sm:w-[22vw] lg:w-55 xl:w-68 2xl:w-80 transition-transform duration-200 hover:scale-105 cursor-pointer">
           <img
             className="rounded-sm sm:h-[25vh] lg:h-100 xl:h-140 2xl:h-180 object-cover w-full"
-            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+            src={posterSrc}
             alt={movie.title}
           />
         </div>
@@ -30,7 +36,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
       <DialogContent className="lg:!max-w-[90vw] lg:flex lg:flex-row lg:p-0">
         <img
           className="lg:h-auto lg:max-h-[35vh] xl:max-h-[46vh]"
-          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+          src={posterSrc}
           alt={movie.title}
         />
         <DialogHeader className="lg:flex-1 lg:p-6 lg:overflow-y-auto text-left">
